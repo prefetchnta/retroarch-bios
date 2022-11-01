@@ -1,11 +1,6 @@
 
 MISSING BIOS
 
-    dsi_bios7.bin
-    dsi_bios9.bin
-    dsi_firmware.bin
-    dsi_nand.bin
-    dsi_sd_card.bin
     panafz10-patched.bin
     panafz10e-anvil-patched.bin
     palmos40-en-m500.rom
@@ -14,9 +9,6 @@ MISSING BIOS
     bootloader-dbvz.rom
     kick39106.A1200
     kick39106.A4000
-    bass.dll
-    bassmidi.dll
-    upd7801g.s01
     ep128emu/roms/exos21.rom
     ep128emu/roms/basic21.rom
     ep128emu/roms/exdos13.rom
@@ -43,6 +35,10 @@ MISSING BIOS
 NAME CONFLICTS
 
     rename dir SGB1.sfc & SGB2.sfc to SGB1-sfc & SGB2-sfc
+
+SIZE LIMIT
+
+    dsi_nand.bin ------> dsi_nand.7z.*
 
 HASHING FILE
 
