@@ -1,8 +1,6 @@
 
 MISSING BIOS
 
-    panafz10-patched.bin
-    panafz10e-anvil-patched.bin
     palmos52-en-t3.rom
     palmos60-en-t3.rom
 
