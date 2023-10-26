@@ -12,7 +12,7 @@ SIZE LIMIT
 
     dsi_nand.bin ------> dsi_nand.7z.*
 
-HASHING FILE
+HASH FILE
 
     system/__hash__.txt
 
