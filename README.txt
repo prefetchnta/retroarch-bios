@@ -14,7 +14,7 @@ SIZE LIMIT
 
 HASH FILE
 
-    system/__hash__.txt
+    __hash__.txt
 
         SHA1
         MD5 + CRC32
