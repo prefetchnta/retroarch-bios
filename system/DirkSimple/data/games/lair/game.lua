@@ -12,12 +12,14 @@ local starting_lives = 5
 local infinite_lives = false  -- set to true to not lose a life on failure.
 local god_mode = false  -- if true, game plays correct moves automatically, so you never fail.
 local play_sounds = true  -- if true, beeps and buzzes play when appropriate, otherwise, skipped.
+local draw_hints = false  -- if true, draws hint on what button to press.
 
 DirkSimple.cvars = {
     { name="starting_lives", desc="Number of lives player starts with", values="5|4|3|2|1", setter=function(name, value) starting_lives = DirkSimple.to_int(value) end },
     { name="infinite_lives", desc="Don't lose a life when failing", values="false|true", setter=function(name, value) infinite_lives = DirkSimple.to_bool(value) end },
     { name="god_mode", desc="Game plays itself perfectly, never failing", values="false|true", setter=function(name, value) god_mode = DirkSimple.to_bool(value) end },
-    { name="play_sounds", desc="Play input sounds", values="true|false", setter=function(name, value) play_sounds = DirkSimple.to_bool(value) end }
+    { name="play_sounds", desc="Play input sounds", values="true|false", setter=function(name, value) play_sounds = DirkSimple.to_bool(value) end },
+    { name="draw_hints", desc="Show hints", values="true|false", setter=function(name, value) draw_hints = DirkSimple.to_bool(value) end },
 }
 
 
@@ -286,6 +288,41 @@ local function kill_player()
     end
 end
 
+local hint_sprite_data = {
+    up        = { sprite = "hints", index = 0, x = .45, y = .0,  w = .1, h = .1 },
+    upright   = { sprite = "hints", index = 1, x = .9,  y = .0,  w = .1, h = .1 },
+    right     = { sprite = "hints", index = 2, x = .9,  y = .45, w = .1, h = .1 },
+    downright = { sprite = "hints", index = 3, x = .9,  y = .9,  w = .1, h = .1 },
+    down      = { sprite = "hints", index = 4, x = .45, y = .9,  w = .1, h = .1 },
+    downleft  = { sprite = "hints", index = 5, x = .0,  y = .9,  w = .1, h = .1 },
+    left      = { sprite = "hints", index = 6, x = .0,  y = .45, w = .1, h = .1 },
+    upleft    = { sprite = "hints", index = 7, x = .0,  y = .0,  w = .1, h = .1 },
+    action    = { sprite = "hints", index = 8, x = .45, y = .45, w = .1, h = .1 },
+}
+
+-- This function assumes the actions are grouped by input, and sorted by time
+local function draw_hint_sprites(actions)
+    local last_action_drawn = nil
+
+    for i=1,#actions do
+        local action = actions[i]
+        if scene_manager.current_sequence_ticks <= action.to and (not last_action_drawn or last_action_drawn.input ~= action.input) then
+            local hl = hint_sprite_data[action.input]
+            if hl then
+                r = 0
+                g = 0
+                if scene_manager.current_scene[action.nextsequence].kills_player then
+                  r = 255
+                else
+                  g = 255
+                end
+                DirkSimple.draw_sprite(hl.sprite, 32 * hl.index, 0, 32, 32, DirkSimple.video_width * hl.x, DirkSimple.video_height * hl.y, DirkSimple.video_width * hl.w, DirkSimple.video_height * hl.h, r, g, 0)
+            end
+            last_action_drawn = action
+        end
+    end
+end
+
 local function check_actions(inputs)
     -- we don't care about inserting coins, but we'll play the sound if you
     -- hit the coinslot button.
@@ -299,6 +336,9 @@ local function check_actions(inputs)
 
     local actions = scene_manager.current_sequence.actions
     if actions ~= nil then
+        if draw_hints then
+            draw_hint_sprites(actions)
+        end
         for i,v in ipairs(actions) do
             -- ignore if not in the time window for this input.
             if (scene_manager.current_sequence_ticks >= v.from) and (scene_manager.current_sequence_ticks <= v.to) then
@@ -2024,7 +2064,6 @@ scenes = {
                 { input="up", from=time_to_ms(1, 638), to=time_to_ms(2, 490), nextsequence="seq8" },
                 { input="down", from=time_to_ms(1, 638), to=time_to_ms(2, 490), nextsequence="seq9" },
                 { input="right", from=time_to_ms(1, 835), to=time_to_ms(2, 720), nextsequence="seq9" },
-                { input="left", from=time_to_ms(1, 638), to=time_to_ms(2, 490), nextsequence="seq8" },
                 { input="left", from=time_to_ms(1, 638), to=time_to_ms(2, 490), nextsequence="seq8" },
             }
         },
@@ -3948,7 +3987,7 @@ scenes = {
 
         seq10 = {
             start_time = time_laserdisc_noseek(),
-            timeout = { when=time_to_ms(5, 676), nextsequence=nil }
+            timeout = { when=time_to_ms(3, 441), nextsequence=nil }
         },
 
         seq11 = {
@@ -4079,7 +4118,7 @@ scenes = {
 
         seq10 = {
             start_time = time_laserdisc_noseek(),
-            timeout = { when=time_to_ms(5, 438), nextsequence=nil }
+            timeout = { when=time_to_ms(3, 203), nextsequence=nil }
         },
 
         seq11 = {

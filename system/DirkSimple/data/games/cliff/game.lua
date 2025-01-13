@@ -90,7 +90,7 @@ local function setup_scene_manager()
 end
 
 -- Cliff Hanger only draws "characters" to a grid on the screen. It could not
--- draw outside the grid (one character filled a cell, you couldn't draw
+-- draw outside the grid: one character filled a cell, you couldn't draw
 -- in the middle to straddle two cells, which means you could not position
 -- anything by pixel position if it didn't align to the grid. Think of it
 -- as a fancy text terminal.
