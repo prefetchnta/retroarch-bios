@@ -12,6 +12,7 @@ SIZE LIMIT
 
     dsi_nand.bin ------> dsi_nand.7z.*
     dsi_sd_card.bin ---> dsi_sd_card.7z
+    nds_sd_card.bin ---> dsi_sd_card.7z
 
 HASH FILE
 
