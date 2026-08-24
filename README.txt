@@ -1,8 +1,6 @@
 
 MISSING BIOS
 
-    palmos52-en-t3.rom
-    palmos60-en-t3.rom
 
 NAME CONFLICTS
 
